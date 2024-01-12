@@ -56,11 +56,16 @@ class LinkedList {
     while(curr){
       if(curr.next === this.tail){
         const tail = curr.next.val;
+        // console.log('this.tail:',this.tail.val);
+ 
         this.tail = curr;
         this.tail.next = null;
         this.length -= 1;
+        // console.log('pop/curr.val:',curr.val);
+        // console.log('pop:',tail);
+        // console.log('this.tail:',this.tail.val);
         return tail;
-      }else if(curr === this.tail){
+      }else if(this.length === 1){
         const tail = curr.val;
         this.tail = null;
         this.head = null;
@@ -137,6 +142,11 @@ class LinkedList {
       }
       if(this.length === 0){
         this.push(val);
+        return;
+      }
+      if(idx === 0){
+        this.unshift(val);
+        return;
       }
   
       let curr = this.head;
@@ -149,7 +159,7 @@ class LinkedList {
           }
           newNode.next = curr.next;
           curr.next = newNode;
-          this.length += 1;
+          this.length++;
           return;
         }
         i++;
@@ -173,6 +183,11 @@ class LinkedList {
       this.head = null;
       this.tail = null;
       this.length--;
+      return val;
+    }
+    if(idx === this.length - 1){
+      const val = this.pop();
+      console.log('rmv:',val);
       return val;
     }
 
@@ -205,6 +220,92 @@ class LinkedList {
     const avg = sum/(this.length);
     return avg;
   }
+
+  /** Console.log current list */
+  show(){
+    let curr = this.head;
+    while(curr){
+      console.log(curr.val);
+      curr = curr.next;
+    }
+    return;
+  }
+
+  /** reverse the current list in place */
+  reverse(){
+    const end = this.length;
+    for(let i=0; i<end; i++){
+      let popped = this.pop();
+      this.insertAt(i, popped);
+    }
+    return;
+  }
+  /** Couldn't figure out how to make the pivotAround function work */
+  // pivotAround(val){
+  //   let curr = this.head;
+  //   let i = 0;
+  //   let j = 0;
+  //   // for(let i=0;i<this.length;i++){
+  //   //   if(curr.val<=val){
+  //   //     console.log('idx', i);
+  //   //     let mv = this.removeAt(i);
+  //   //     console.log('val',val);
+  //   //     console.log('mv',mv);
+  //   //     this.insertAt(j,mv);
+  //   //     j++;
+  //   //   }
+  //   //   curr = curr.next;
+  //   // }
+  //   while(curr){
+  //     console.log('pivot tail:', this.tail);
+  //     if(curr.val<=val){
+  //       let mv = this.removeAt(i);
+  //       this.insertAt(j, mv);
+  //       console.log('idx:',i);
+  //       console.log('val:', val);
+  //       console.log('mv:', mv);
+  //       console.log('curr.val:', curr.val);
+  //       console.log('------');
+  //       j++;
+  //     }
+  //     i++;
+  //     curr = curr.next;
+  //   }
+  //   return;
+  // }
 }
 
+/** sort two sorted linked lists */
+function sortSorted(l1, l2){
+  let val = [];
+  
+  let curr = l1.head;
+  for(let i=0; i<l1.length;i++){
+    val.push(curr.val);
+    curr = curr.next;
+  }
+  curr = l2.head;
+  for(let i=0; i<l2.length;i++){
+    val.push(curr.val);
+    curr = curr.next;
+  }
+
+  val.sort((a,b) => a-b);
+
+  let l3 = new LinkedList(val);
+  return l3;
+}
+
+let lst = new LinkedList();
+lst.push(2);
+lst.push(3);
+lst.push(13);
+lst.push(24);
+let lst2 = new LinkedList();
+lst2.push(4);
+lst2.push(5);
+lst2.push(6);
+lst2.push(23);
+
+let ll = new LinkedList([7, 6, 2, 3, 9, 1, 1]);
 // module.exports = LinkedList;
